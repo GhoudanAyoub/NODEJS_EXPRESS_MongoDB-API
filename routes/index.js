@@ -80,6 +80,8 @@ router.get('/api/notifications', (req, res) => {
 });
 
 // Get Single Models
+const query = { id: "The Room" };
+
 router.get('/api/employee/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send(`No record With Given ID : ${req.params.id}`);
@@ -93,62 +95,50 @@ router.get('/api/employee/:id', (req, res) => {
     });
 });
 router.get('/api/user/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record With Given ID : ${req.params.id}`);
+    // if (!ObjectId.isValid(req.params.id))
+    //     return res.status(400).send(`No record With Given ID : ${req.params.id}`);
 
-    user.findById(req.params.id, (err, data) => {
+    user.findOne({ id: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            console.log(`No record With Given ID : ${req.params.id}`);
         }
     });
 });
 router.get('/api/notification/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record With Given ID : ${req.params.id}`);
-
-    notification.findById(req.params.id, (err, data) => {
+    notification.findOne({ id: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            console.log(`No record With Given ID : ${req.params.id}`);
         }
     });
 });
 router.get('/api/video/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record With Given ID : ${req.params.id}`);
-
-    video.findById(req.params.id, (err, data) => {
+    video.findOne({ id: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            console.log(`No record With Given ID : ${req.params.id}`);
         }
     });
 });
 router.get('/api/post/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record With Given ID : ${req.params.id}`);
-
-    post.findById(req.params.id, (err, data) => {
+    post.findOne({ id: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            console.log(`No record With Given ID : ${req.params.id}`);
         }
     });
 });
 router.get('/api/live/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record With Given ID : ${req.params.id}`);
-
-    live.findById(req.params.id, (err, data) => {
+    live.findOne({ id: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            console.log(`No record With Given ID : ${req.params.id}`);
         }
     });
 });
@@ -322,7 +312,7 @@ router.put('/api/user/update/:id', (req, res) => {
         isOnline: req.body.isOnline,
         lastSeen: req.body.lastSeen
     };
-    user.findByIdAndUpdate(req.params.id, { $set: u }, { new: true }, (err, data) => {
+    user.findOneAndUpdate({ id: req.params.id }, { $set: u }, { new: true }, (err, data) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'User Updated Successfully', updateUser: data })
         } else {
@@ -344,7 +334,7 @@ router.put('/api/live/update/:id', (req, res) => {
         startAt: req.body.startAt,
         endAt: req.body.endAt,
     };
-    Employee.findByIdAndUpdate(req.params.id, { $set: l }, { new: true }, (err, data) => {
+    live.findOneAndUpdate({ id: req.params.id }, { $set: l }, { new: true }, (err, data) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'Live Updated Successfully', updateLive: data })
         } else {
@@ -355,7 +345,7 @@ router.put('/api/live/update/:id', (req, res) => {
 
 // Delete models
 router.delete('/api/employee/:id', (req, res) => {
-    Employee.findByIdAndRemove(req.params.id, (err, data) => {
+    Employee.findByIdAndDelete(req.params.id, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Employee deleted', deleteEmployee: data })
@@ -365,7 +355,7 @@ router.delete('/api/employee/:id', (req, res) => {
     });
 });
 router.delete('/api/video/:id', (req, res) => {
-    video.findByIdAndRemove(req.params.id, (err, data) => {
+    video.findOneAndDelete({ id: req.params.id }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'video deleted', deleteVideo: data })
@@ -375,7 +365,7 @@ router.delete('/api/video/:id', (req, res) => {
     });
 });
 router.delete('/api/post/:id', (req, res) => {
-    post.findByIdAndRemove(req.params.id, (err, data) => {
+    post.findOneAndDelete({ id: req.params.id }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'post deleted', deletePost: data })
@@ -385,7 +375,7 @@ router.delete('/api/post/:id', (req, res) => {
     });
 });
 router.delete('/api/live/:id', (req, res) => {
-    live.findByIdAndRemove(req.params.id, (err, data) => {
+    live.findOneAndDelete({ id: req.params.id }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'live deleted', deletelive: data })
@@ -395,10 +385,20 @@ router.delete('/api/live/:id', (req, res) => {
     });
 });
 router.delete('/api/notification/:id', (req, res) => {
-    notification.findByIdAndRemove(req.params.id, (err, data) => {
+    notification.findOneAndDelete({ id: req.params.id }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'notification deleted', deleteNotification: data })
+        } else {
+            console.log(err);
+        }
+    });
+});
+router.delete('/api/user/:id', (req, res) => {
+    user.findOneAndDelete({ id: req.params.id }, (err, data) => {
+        if (!err) {
+            // res.send(data);
+            res.status(200).json({ code: 200, message: 'user deleted', deleteNotification: data })
         } else {
             console.log(err);
         }
