@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;    
 
-const { Employee } = require('../models/employee');
+const { Employee } = require('../models/Models');
 
 
 // Get All Employees
@@ -16,10 +16,11 @@ router.get('/api/employees', (req, res) => {
     });
 });
 
-
-// Get Single Employee (First Way)
-
+// Get Single Employee
 router.get('/api/employee/:id', (req, res) => {
+    if(!ObjectId.isValid(req.params.id))
+    return res.status(400).send(`No record With Given ID : ${req.params.id}`);
+
     Employee.findById(req.params.id, (err, data) => {
         if(!err) {
             res.send(data);
@@ -28,23 +29,6 @@ router.get('/api/employee/:id', (req, res) => {
         }
     });
 });
-
-
-// Get Single Employee (2nd Way)
-
-// router.get('/api/employee/:id', (req, res) => {
-//     if(!ObjectId.isValid(req.params.id))
-//     return res.status(400).send(`No record With Given ID : ${req.params.id}`);
-
-//     Employee.findById(req.params.id, (err, data) => {
-//         if(!err) {
-//             res.send(data);
-//         } else {
-//            console.log(err);
-//         }
-//     });
-// });
-
 
 // Save Employee
 router.post('/api/employee/add', (req, res) => {
@@ -63,13 +47,8 @@ router.post('/api/employee/add', (req, res) => {
     });
 });
 
-
-
 // Update Employee
-
 router.put('/api/employee/update/:id', (req, res) => {
-
-
     const emp = {
         name: req.body.name,
         position: req.body.position,
@@ -85,13 +64,8 @@ router.put('/api/employee/update/:id', (req, res) => {
     });
 });
 
-
-
-
-
 // Delete Employee
 router.delete('/api/employee/:id', (req, res) => {
-
     Employee.findByIdAndRemove(req.params.id, (err, data) => {
         if(!err) {
             // res.send(data);
