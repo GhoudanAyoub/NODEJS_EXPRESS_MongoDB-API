@@ -66,10 +66,8 @@ const video = mongoose.model('video', {
         required: true
     }, tags: {
         type: String,
-        required: true
     }, description: {
         type: String,
-        required: true
     }, mediaUrl: {
         type: String,
         required: true
