@@ -91,8 +91,7 @@ const post = mongoose.model('post', {
         type: String,
         required: true
     }, tags: {
-        type: String,
-        required: true
+        type: String
     }, description: {
         type: String,
         required: true
@@ -215,5 +214,12 @@ const report = mongoose.model('report', {
     }
 });
 
+const decision = mongoose.model('decisions', {
+    decision: {
+        type: Boolean,
+        required: true
+    }
+});
 
-module.exports = { Employee, user, video, post, postComment, live, liveComment, notification, report }
+
+module.exports = { Employee, user, video, post, postComment, live, liveComment, notification, report, decision }
