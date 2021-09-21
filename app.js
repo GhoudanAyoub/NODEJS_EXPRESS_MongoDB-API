@@ -10,12 +10,12 @@ app.use(cors());
 
 const connectDB = require('./config/db');
 // Load Config
-dotenv.config({path: './config/config.env'})
+dotenv.config({ path: './config/config.env' })
 connectDB();
 // Routes
 app.use('/', require('./routes/index'));
 
-app.listen(3000);
+app.listen(3000, "127.0.0.1");
 
 
 
