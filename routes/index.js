@@ -386,7 +386,7 @@ router.put('/api/live/update/:id', (req, res) => {
         }
     });
 });
-router.put('/api/desicion/update/:id', (req, res) => {
+router.put('/api/decision/update/:id', (req, res) => {
     const d = {
         decision: req.body.decision
     };
