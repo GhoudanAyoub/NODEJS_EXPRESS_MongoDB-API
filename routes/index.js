@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const { Employee, user, video, post, postComment, live, liveComment, notification } = require('../models/Models');
+const { Employee, user, video, post, postComment, live, liveComment, notification, report } = require('../models/Models');
 
 router.get('/', (req, res) => {
     res.send("hello Are you Lost");
@@ -80,10 +80,17 @@ router.get('/api/notifications', (req, res) => {
         }
     });
 });
+router.get('/api/reports', (req, res) => {
+    report.find({}, (err, data) => {
+        if (!err) {
+            res.send(data);
+        } else {
+            console.log(err);
+        }
+    });
+});
 
 // Get Single Models
-const query = { id: "The Room" };
-
 router.get('/api/employee/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send(`No record With Given ID : ${req.params.id}`);
@@ -284,6 +291,20 @@ router.post('/api/notification/add', (req, res) => {
         }
     });
 });
+router.post('/api/report/add', (req, res) => {
+    const r = new report({
+        accountId: req.body.accountId,
+        reporterId: req.body.reporterId,
+        type: req.body.type
+    });
+    r.save((err, data) => {
+        if (!err) {
+            res.status(200).json({ code: 200, message: 'report Added Successfully', addReport: data })
+        } else {
+            console.log(err);
+        }
+    });
+});
 
 // Update Models
 router.put('/api/employee/update/:id', (req, res) => {
@@ -401,6 +422,15 @@ router.delete('/api/user/:id', (req, res) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'user deleted', deleteNotification: data })
+        } else {
+            console.log(err);
+        }
+    });
+});
+router.delete('/api/report/:id', (req, res) => {
+    report.findOneAndDelete({ id: req.params.id }, (err, data) => {
+        if (!err) {
+            res.status(200).json({ code: 200, message: 'report deleted', deleteReport: data })
         } else {
             console.log(err);
         }
