@@ -401,7 +401,7 @@ router.put('/api/decision/update/:id', (req, res) => {
 
 // Delete models
 router.delete('/api/employee/:id', (req, res) => {
-    Employee.findOneAndRemove(req.params.id, (err, data) => {
+    Employee.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Employee deleted', deleteEmployee: data })
@@ -411,7 +411,7 @@ router.delete('/api/employee/:id', (req, res) => {
     });
 });
 router.delete('/api/video/:id', (req, res) => {
-    video.findOneAndRemove(req.params.id, (err, data) => {
+    video.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'video deleted', deleteVideo: data })
@@ -421,7 +421,7 @@ router.delete('/api/video/:id', (req, res) => {
     });
 });
 router.delete('/api/post/:id', (req, res) => {
-    post.findOneAndRemove(req.params.id, (err, data) => {
+    post.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'post deleted', deletePost: data })
@@ -431,7 +431,7 @@ router.delete('/api/post/:id', (req, res) => {
     });
 });
 router.delete('/api/live/:id', (req, res) => {
-    live.findOneAndRemove(req.params.id, (err, data) => {
+    live.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'live deleted', deletelive: data })
@@ -441,7 +441,7 @@ router.delete('/api/live/:id', (req, res) => {
     });
 });
 router.delete('/api/notification/:id', (req, res) => {
-    notification.findOneAndRemove(req.params.id, (err, data) => {
+    notification.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'notification deleted', deleteNotification: data })
@@ -451,7 +451,7 @@ router.delete('/api/notification/:id', (req, res) => {
     });
 });
 router.delete('/api/user/:id', (req, res) => {
-    user.findOneAndRemove(req.params.id, (err, data) => {
+    user.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'user deleted', deleteNotification: data })
@@ -461,7 +461,7 @@ router.delete('/api/user/:id', (req, res) => {
     });
 });
 router.delete('/api/report/:id', (req, res) => {
-    report.findOneAndRemove(req.params.id, (err, data) => {
+    report.deleteMany({ id: { $in: req.params.id } }, (err, data) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'report deleted', deleteReport: data })
         } else {
