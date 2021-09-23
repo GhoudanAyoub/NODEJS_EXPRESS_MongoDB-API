@@ -22,7 +22,7 @@ router.get('/api/users', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -31,7 +31,7 @@ router.get('/api/videos', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -40,7 +40,7 @@ router.get('/api/posts', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -49,7 +49,7 @@ router.get('/api/postComments', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -58,7 +58,7 @@ router.get('/api/lives', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -67,7 +67,7 @@ router.get('/api/liveComments', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -85,7 +85,7 @@ router.get('/api/reports', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -94,7 +94,7 @@ router.get('/api/decision', (req, res) => {
         if (!err) {
             res.send(data);
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -195,7 +195,7 @@ router.post('/api/user/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'user Added Successfully', adduser: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -217,7 +217,7 @@ router.post('/api/video/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Video Added Successfully', addvideo: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -237,7 +237,7 @@ router.post('/api/post/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Post Added Successfully', addPost: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -254,7 +254,7 @@ router.post('/api/postComment/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'postComment Added Successfully', addpostComment: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -277,7 +277,7 @@ router.post('/api/live/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Live Added Successfully', addLive: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -296,7 +296,7 @@ router.post('/api/notification/add', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Notification Added Successfully', addNotification: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -310,7 +310,7 @@ router.post('/api/report/add', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'report Added Successfully', addReport: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -322,7 +322,7 @@ router.post('/api/decision/add', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'decision Added Successfully', addDecision: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -339,7 +339,7 @@ router.put('/api/employee/update/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'Employee Updated Successfully', updateEmployee: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -360,7 +360,7 @@ router.put('/api/user/update/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'User Updated Successfully', updateUser: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -382,7 +382,7 @@ router.put('/api/live/update/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'Live Updated Successfully', updateLive: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -394,7 +394,7 @@ router.put('/api/decision/update/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'd Updated Successfully', updateD: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -406,7 +406,7 @@ router.delete('/api/employee/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'Employee deleted', deleteEmployee: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -416,7 +416,7 @@ router.delete('/api/video/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'video deleted', deleteVideo: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -426,7 +426,7 @@ router.delete('/api/post/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'post deleted', deletePost: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -436,7 +436,7 @@ router.delete('/api/live/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'live deleted', deletelive: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -446,7 +446,7 @@ router.delete('/api/notification/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'notification deleted', deleteNotification: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -456,7 +456,7 @@ router.delete('/api/user/:id', (req, res) => {
             // res.send(data);
             res.status(200).json({ code: 200, message: 'user deleted', deleteNotification: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -465,7 +465,7 @@ router.delete('/api/report/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'report deleted', deleteReport: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
@@ -474,7 +474,7 @@ router.delete('/api/decision/delete/:id', (req, res) => {
         if (!err) {
             res.status(200).json({ code: 200, message: 'dis deleted', deleteDis: data })
         } else {
-            console.log(err);
+            res.status(400).json({ code: 400, message: err.message, addvideo: data })
         }
     });
 });
