@@ -1,14 +1,43 @@
 const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
-const uploadController = require("../controllers/uploadController");
+const mongoose = require("mongoose");
+const upload = require("../middleware/upload");
+const Grid = require("gridfs-stream");
 
-const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision } = require('../models/Models');
+const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision, photosFile } = require('../models/Models');
+
+let gfs;
+
+const conn = mongoose.connection;
+conn.once("open", function () {
+    gfs = Grid(conn.db, mongoose.mongo);
+    gfs.collection("photos");
+});
 
 
-router.post("/api/upload", uploadController.uploadFile);
+router.post("/api/upload", upload.single("file"), async (req, res) => {
+    if (req.file === undefined) return res.send("you must select a file.");
+    const imgUrl = `/file/${req.file.filename}`;
+    return res.send(imgUrl);
+});
 
+// media routes
+router.get("/file/:filename", async (req, res) => {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    const readStream = gfs.createReadStream(file.filename);
+    readStream.pipe(res);
+});
 
+router.delete("/file/:filename", async (req, res) => {
+    try {
+        await gfs.files.deleteOne({ filename: req.params.filename });
+        res.send("success");
+    } catch (error) {
+        console.log(error);
+        res.send("An error occured.");
+    }
+});
 
 router.get('/', (req, res) => {
     res.send("hello Are you Lost");
