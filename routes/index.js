@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
+const uploadController = require("../controllers/uploadController");
 
 const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision } = require('../models/Models');
+
+
+router.post("/api/upload", uploadController.uploadFile);
+
 
 
 router.get('/', (req, res) => {
