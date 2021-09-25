@@ -4,9 +4,11 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision } = require('../models/Models');
 
+
 router.get('/', (req, res) => {
     res.send("hello Are you Lost");
 });
+
 // Get All models
 router.get('/api/employees', (req, res) => {
     Employee.find({}, (err, data) => {
