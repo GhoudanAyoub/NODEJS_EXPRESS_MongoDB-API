@@ -134,7 +134,7 @@ router.get('/api/notification/:id', (req, res) => {
     });
 });
 router.get('/api/video/:id', (req, res) => {
-    video.findOne({ id: req.params.id }, (err, data) => {
+    video.findOne({ ownerId: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
@@ -143,7 +143,7 @@ router.get('/api/video/:id', (req, res) => {
     });
 });
 router.get('/api/post/:id', (req, res) => {
-    post.findOne({ id: req.params.id }, (err, data) => {
+    post.findOne({ ownerId: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
