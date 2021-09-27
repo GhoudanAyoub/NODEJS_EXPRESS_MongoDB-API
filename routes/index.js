@@ -30,9 +30,15 @@ router.post("/file/uploadImage", upload.single("file"), async (req, res) => {
     return res.send(imgUrl);
 });
 router.get("/file/:filename", async (req, res) => {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    const readStream = gfs.createReadStream(file.filename);
-    readStream.pipe(res);
+    gfs.files.findOne({ filename: req.params.filename }, (err, data) => {
+
+        if (data != null && data.filename != null) {
+            const readStream = gfs.createReadStream(data.filename);
+            readStream.pipe(res);
+        } else
+
+            res.status(400).json({ code: 400, message: err, getImageData: data })
+    });
 });
 router.delete("/file/:filename", async (req, res) => {
     try {
