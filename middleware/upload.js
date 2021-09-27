@@ -7,7 +7,7 @@ var storage = new GridFsStorage({
     url: process.env.MONGO_URI,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
-        const match = ["image/png", "image/jpeg"];
+        const match = ["image/png", "image/jpeg", "video/mp4"];
 
         if (match.indexOf(file.mimetype) === -1) {
             const filename = `${Date.now()}-Ghoudan-${file.originalname}`;
@@ -20,5 +20,4 @@ var storage = new GridFsStorage({
         };
     }
 });
-
 module.exports = multer({ storage });

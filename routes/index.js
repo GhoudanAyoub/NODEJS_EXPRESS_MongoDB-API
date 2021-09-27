@@ -4,7 +4,8 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const mongoose = require("mongoose");
 const upload = require("../middleware/upload");
 const Grid = require("gridfs-stream");
-
+const mongodb = require('mongodb');
+const fs = require("fs");
 const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision, photosFile } = require('../models/Models');
 
 let gfs;
@@ -15,20 +16,24 @@ conn.once("open", function () {
     gfs.collection("photos");
 });
 
-
-router.post("/api/upload", upload.single("file"), async (req, res) => {
+//All About Videos
+router.post("/api/uploadVideo", upload.single("file"), async (req, res) => {
     if (req.file === undefined) return res.send("you must select a file.");
     const imgUrl = `/file/${req.file.filename}`;
     return res.send(imgUrl);
 });
 
-// media routes
+//All About Picture
+router.post("/api/uploadImage", upload.single("file"), async (req, res) => {
+    if (req.file === undefined) return res.send("you must select a file.");
+    const imgUrl = `/file/${req.file.filename}`;
+    return res.send(imgUrl);
+});
 router.get("/file/:filename", async (req, res) => {
     const file = await gfs.files.findOne({ filename: req.params.filename });
     const readStream = gfs.createReadStream(file.filename);
     readStream.pipe(res);
 });
-
 router.delete("/file/:filename", async (req, res) => {
     try {
         await gfs.files.deleteOne({ filename: req.params.filename });
@@ -39,6 +44,8 @@ router.delete("/file/:filename", async (req, res) => {
     }
 });
 
+
+//getFirstPage
 router.get('/', (req, res) => {
     res.send("hello Are you Lost");
 });
