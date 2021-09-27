@@ -1,12 +1,55 @@
 const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
+const mongoose = require("mongoose");
+const upload = require("../middleware/upload");
+const Grid = require("gridfs-stream");
+const mongodb = require('mongodb');
+const fs = require("fs");
+const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision, photosFile } = require('../models/Models');
 
-const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision } = require('../models/Models');
+let gfs;
 
+const conn = mongoose.connection;
+conn.once("open", function () {
+    gfs = Grid(conn.db, mongoose.mongo);
+    gfs.collection("photos");
+});
+
+//All About Videos
+router.post("/file/uploadVideo", upload.single("file"), async (req, res) => {
+    if (req.file === undefined) return res.send("you must select a file.");
+    const imgUrl = `/file/${req.file.filename}`;
+    return res.send(imgUrl);
+});
+
+//All About Picture
+router.post("/file/uploadImage", upload.single("file"), async (req, res) => {
+    if (req.file === undefined) return res.send("you must select a file.");
+    const imgUrl = `/file/${req.file.filename}`;
+    return res.send(imgUrl);
+});
+router.get("/file/:filename", async (req, res) => {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    const readStream = gfs.createReadStream(file.filename);
+    readStream.pipe(res);
+});
+router.delete("/file/:filename", async (req, res) => {
+    try {
+        await gfs.files.deleteOne({ filename: req.params.filename });
+        res.send("success");
+    } catch (error) {
+        console.log(error);
+        res.send("An error occured.");
+    }
+});
+
+
+//getFirstPage
 router.get('/', (req, res) => {
     res.send("hello Are you Lost");
 });
+
 // Get All models
 router.get('/api/employees', (req, res) => {
     Employee.find({}, (err, data) => {
@@ -134,7 +177,7 @@ router.get('/api/notification/:id', (req, res) => {
     });
 });
 router.get('/api/video/:id', (req, res) => {
-    video.findOne({ id: req.params.id }, (err, data) => {
+    video.findOne({ ownerId: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {
@@ -143,7 +186,7 @@ router.get('/api/video/:id', (req, res) => {
     });
 });
 router.get('/api/post/:id', (req, res) => {
-    post.findOne({ id: req.params.id }, (err, data) => {
+    post.findOne({ ownerId: req.params.id }, (err, data) => {
         if (!err) {
             res.send(data);
         } else {

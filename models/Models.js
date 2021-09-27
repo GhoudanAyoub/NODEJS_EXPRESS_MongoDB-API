@@ -17,6 +17,12 @@ const Employee = mongoose.model('Employee', {
         required: true
     }
 });
+const photosFile = mongoose.model('photos.files', {
+    filename: {
+        type: String,
+        required: true
+    }
+});
 
 const user = mongoose.model('user', {
     username: {
@@ -222,4 +228,4 @@ const decision = mongoose.model('decisions', {
 });
 
 
-module.exports = { Employee, user, video, post, postComment, live, liveComment, notification, report, decision }
+module.exports = { Employee, user, video, post, postComment, live, liveComment, notification, report, decision, photosFile }
