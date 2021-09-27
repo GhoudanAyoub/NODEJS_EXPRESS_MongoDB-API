@@ -17,14 +17,14 @@ conn.once("open", function () {
 });
 
 //All About Videos
-router.post("/api/uploadVideo", upload.single("file"), async (req, res) => {
+router.post("/file/uploadVideo", upload.single("file"), async (req, res) => {
     if (req.file === undefined) return res.send("you must select a file.");
     const imgUrl = `/file/${req.file.filename}`;
     return res.send(imgUrl);
 });
 
 //All About Picture
-router.post("/api/uploadImage", upload.single("file"), async (req, res) => {
+router.post("/file/uploadImage", upload.single("file"), async (req, res) => {
     if (req.file === undefined) return res.send("you must select a file.");
     const imgUrl = `/file/${req.file.filename}`;
     return res.send(imgUrl);

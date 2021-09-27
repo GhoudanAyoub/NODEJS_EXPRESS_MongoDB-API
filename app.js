@@ -17,6 +17,9 @@ connectDB();
 
 // Routes
 app.use('/', require('./routes/index'));
+app.get("/g", function (req, res) {
+    res.sendFile(__dirname + "/index.html");
+});
 
 
 app.listen(3000, "127.0.0.1");
