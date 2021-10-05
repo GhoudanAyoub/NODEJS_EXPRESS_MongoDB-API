@@ -6,7 +6,11 @@ const upload = require("../middleware/upload");
 const Grid = require("gridfs-stream");
 const mongodb = require('mongodb');
 const fs = require("fs");
+const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
 const { Employee, user, video, post, postComment, live, liveComment, notification, report, decision, photosFile } = require('../models/Models');
+
+const APP_ID = process.env.APP_ID;
+const APP_CERTIFICATE = process.env.APP_CERTIFICATE;
 
 let gfs;
 
@@ -16,15 +20,42 @@ conn.once("open", function () {
     gfs.collection("photos");
 });
 
-//All About Videos
-router.post("/file/uploadVideo", upload.single("file"), async (req, res) => {
-    if (req.file === undefined) return res.send("you must select a file.");
-    const imgUrl = `/file/${req.file.filename}`;
-    return res.send(imgUrl);
-});
+const nocache = (req, res, next) => {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next();
+}
+const generateAccessToken = (req, res) => {
+    res.header('Acess-Control-Allow-Origin', '*');
+    const channelName = req.query.channelName;
+    if (!channelName) {
+        return res.status(500).json({ 'error': 'channel is required' });
+    }
+    let uid = req.query.uid;
+    if (!uid || uid == '') {
+        uid = 0;
+    }
+    let role = RtcRole.SUBSCRIBER
+    if (req.query.role == 'publisher') {
+        rele = RtcRole.PUBLISHER;
+    }
+    let expireTime = req.query.expireTime;
+    if (!expireTime || expireTime == '') {
+        expireTime = 3600;
+    } else {
+        expireTime = parseInt(expireTime, 10);
+    }
+    const currentTime = Math.floor(Date.now() / 1000);
+    const privilegeExpireTime = currentTime + expireTime;
+    const token = RtcTokenBuilder.buildTokenWithUid(APP_ID, APP_CERTIFICATE, channelName, uid, role, privilegeExpireTime);
+    return res.json({ 'token': token });
+}
+
+router.get('/api/access_token', nocache, generateAccessToken);
 
 //All About Picture
-router.post("/file/uploadImage", upload.single("file"), async (req, res) => {
+router.post("/file/upload", upload.single("file"), async (req, res) => {
     if (req.file === undefined) return res.send("you must select a file.");
     const imgUrl = `/file/${req.file.filename}`;
     return res.send(imgUrl);

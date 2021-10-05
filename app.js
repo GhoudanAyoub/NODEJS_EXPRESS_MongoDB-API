@@ -18,7 +18,7 @@ connectDB();
 // Routes
 app.use('/', require('./routes/index'));
 app.get("/home", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile(__dirname + "/routes/index.html");
 });
 
 
