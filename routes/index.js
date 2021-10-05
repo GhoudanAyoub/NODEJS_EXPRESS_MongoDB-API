@@ -30,7 +30,7 @@ const generateAccessToken = (req, res) => {
     res.header('Acess-Control-Allow-Origin', '*');
     const channelName = req.query.channelName;
     if (!channelName) {
-        return res.status(500).json({ 'error': 'channel is required' });
+        return res.status(500).send({ code: 500, error: 'channel is required' });
     }
     let uid = req.query.uid;
     if (!uid || uid == '') {
@@ -49,7 +49,7 @@ const generateAccessToken = (req, res) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const privilegeExpireTime = currentTime + expireTime;
     const token = RtcTokenBuilder.buildTokenWithUid(APP_ID, APP_CERTIFICATE, channelName, uid, role, privilegeExpireTime);
-    return res.send({ 'token': token });
+    return res.send({ Token: token });
 }
 
 router.get('/api/access_token', nocache, generateAccessToken);
