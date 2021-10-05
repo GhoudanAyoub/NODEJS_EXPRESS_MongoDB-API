@@ -49,7 +49,7 @@ const generateAccessToken = (req, res) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const privilegeExpireTime = currentTime + expireTime;
     const token = RtcTokenBuilder.buildTokenWithUid(APP_ID, APP_CERTIFICATE, channelName, uid, role, privilegeExpireTime);
-    return res.json({ 'token': token });
+    return res.send({ 'token': token });
 }
 
 router.get('/api/access_token', nocache, generateAccessToken);
